@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              String      @id @default(cuid())
+  email           String      @unique
+  name            String
+  google_id       String      @unique
+  company_id      String?
+  employee_code   String?     @db.VarChar(6)
+  department_code String?     @db.VarChar(4)
+  fnc_code        String?     @db.VarChar(10)
+  deleted_at      DateTime?
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  user_rate       Int?
+  exports         exports[]
+  time_logs       time_logs[]
+  companies       companies?  @relation(fields: [company_id], references: [id])
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([email, deleted_at])
+  @@map("users")
+}
+
+model companies {
+  id                  String     @id
+  teamwork_company_id Int        @unique
+  name                String
+  created_at          DateTime   @default(now())
+  updated_at          DateTime
+  projects            projects[]
+  users               User[]
+
+  @@index([name])
+}
+
+model exports {
+  id               String   @id
+  file_name        String
+  s3_key           String   @unique
+  date_range_start DateTime @db.Date
+  date_range_end   DateTime @db.Date
+  created_by       String
+  created_at       DateTime @default(now())
+  expires_at       DateTime
+  is_quick_run     Boolean  @default(false)
+  users            User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
+
+  @@index([created_by, created_at])
+  @@index([expires_at])
+}
+
+model project_job_number_cache {
+  id         String   @id
+  project_id Int      @unique
+  job_number String?  @db.VarChar(30)
+  fetched_at DateTime @default(now())
+  updated_at DateTime
+
+  @@index([fetched_at])
+}
+
+model projects {
+  id                  String      @id
+  teamwork_project_id Int         @unique
+  name                String
+  company_id          String?
+  created_at          DateTime    @default(now())
+  updated_at          DateTime
+  job_code            String?     @db.VarChar(30)
+  companies           companies?  @relation(fields: [company_id], references: [id])
+  time_logs           time_logs[]
+
+  @@index([company_id])
+  @@index([name])
+}
+
+model task_job_number_cache {
+  id         String   @id
+  task_id    Int      @unique
+  job_number String?  @db.VarChar(30)
+  fetched_at DateTime @default(now())
+  updated_at DateTime
+
+  @@index([fetched_at])
+}
+
+model time_logs {
+  id              String   @id
+  teamwork_log_id Int      @unique
+  user_id         String
+  project_id      String
+  date            DateTime @db.Date
+  minutes         Int
+  description     String?
+  job_number      String?  @db.VarChar(30)
+  is_billable     Boolean  @default(false)
+  synced_at       DateTime
+  created_at      DateTime @default(now())
+  updated_at      DateTime
+  approval_status String?  @db.VarChar(20)
+  projects        projects @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  users           User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([approval_status, date, user_id], map: "time_logs_approval_date_user_idx")
+  @@index([approval_status, date])
+  @@index([date, user_id, project_id])
+  @@index([project_id, date], map: "time_logs_project_date_idx")
+  @@index([synced_at])
+  @@index([user_id, date], map: "time_logs_user_date_idx")
+}

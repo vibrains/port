@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@ndos/ui/styles.css";
+
+@source "../../../../packages/ui/src/**/*.{ts,tsx}";
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-mono tracking-tight;
+  }
+  /* Add cursor pointer to all clickable elements */
+  button,
+  a,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  label[for],
+  select,
+  summary,
+  [onclick] {
+    cursor: pointer;
+  }
+}

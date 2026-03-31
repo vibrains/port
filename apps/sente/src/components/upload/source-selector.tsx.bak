@@ -1,0 +1,281 @@
+/**
+ * Source Selector Component
+ * Component for selecting the data source type for uploads
+ * @module components/upload/source-selector
+ */
+
+"use client";
+
+import { cn } from "@/lib/utils";
+import { DataSource } from "@/lib/parsers/factory";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Check, Sparkles } from "lucide-react";
+
+/**
+ * Props for the SourceSelector component
+ */
+interface SourceSelectorProps {
+  /** Currently selected data source */
+  value: DataSource | null;
+  /** Callback when source changes */
+  onChange: (source: DataSource) => void;
+  /** Auto-detected source from filename/content */
+  detectedSource?: DataSource | null;
+  /** Whether the selector is disabled */
+  disabled?: boolean;
+  /** Optional className for styling */
+  className?: string;
+}
+
+/**
+ * Available data sources with labels and descriptions
+ */
+const sources: { value: DataSource; label: string; description: string }[] = [
+  {
+    value: "klaviyo-campaigns",
+    label: "Klaviyo Campaigns",
+    description: "Email campaign performance data",
+  },
+  {
+    value: "klaviyo-flows",
+    label: "Klaviyo Flows",
+    description: "Flow automation performance data",
+  },
+  {
+    value: "pardot-campaigns",
+    label: "Pardot Campaigns",
+    description: "Pardot email campaign data",
+  },
+  {
+    value: "pardot-flows",
+    label: "Pardot Flows",
+    description: "Pardot automation programs",
+  },
+  {
+    value: "ga4-pages",
+    label: "GA4 Pages",
+    description: "Page performance data",
+  },
+  {
+    value: "ga4-acquisition",
+    label: "GA4 Acquisition",
+    description: "User acquisition data",
+  },
+  {
+    value: "sprout-social",
+    label: "Sprout Social",
+    description: "Social media post data",
+  },
+];
+
+/**
+ * Source Selector component for choosing data source type
+ * Supports auto-detection display and manual override
+ * 
+ * @example
+ * ```tsx
+ * <SourceSelector
+ *   value={selectedSource}
+ *   onChange={setSelectedSource}
+ *   detectedSource={autoDetectedSource}
+ * />
+ * ```
+ */
+export function SourceSelector({
+  value,
+  onChange,
+  detectedSource,
+  disabled = false,
+  className,
+}: SourceSelectorProps) {
+  const isDetected = detectedSource !== null && detectedSource !== undefined;
+  const isMatch = isDetected && detectedSource === value;
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="source-selector" className="text-sm font-medium">
+          Data Source
+        </Label>
+        {isDetected && (
+          <Badge variant="secondary" className="text-xs">
+            <Sparkles className="w-3 h-3 mr-1" />
+            Auto-detected
+          </Badge>
+        )}
+      </div>
+
+      <Select
+        value={value || undefined}
+        onValueChange={(val) => onChange(val as DataSource)}
+        disabled={disabled}
+      >
+        <SelectTrigger
+          id="source-selector"
+          className={cn(
+            "w-full",
+            isMatch && "border-green-500/50 bg-green-500/5"
+          )}
+        >
+          <SelectValue placeholder="Select a data source..." />
+        </SelectTrigger>
+        <SelectContent>
+          {sources.map((source) => {
+            const isDetectedSource = detectedSource === source.value;
+            const isSelected = value === source.value;
+
+            return (
+              <SelectItem
+                key={source.value}
+                value={source.value}
+                className={cn(
+                  "flex items-center justify-between",
+                  isDetectedSource && "bg-primary/5"
+                )}
+              >
+                <div className="flex items-center gap-2 flex-1">
+                  <span className="flex-1">{source.label}</span>
+                  {isDetectedSource && (
+                    <Sparkles className="w-3 h-3 text-primary" />
+                  )}
+                  {isSelected && <Check className="w-3 h-3 text-green-500" />}
+                </div>
+              </SelectItem>
+            );
+          })}
+        </SelectContent>
+      </Select>
+
+      {/* Selected source description */}
+      {value && (
+        <p className="text-xs text-muted-foreground">
+          {sources.find((s) => s.value === value)?.description}
+        </p>
+      )}
+
+      {/* Detection info */}
+      {isDetected && !isMatch && value && (
+        <div className="flex items-start gap-2 p-3 text-sm rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400">
+          <Sparkles className="w-4 h-4 mt-0.5 shrink-0" />
+          <div>
+            <p className="font-medium">Source mismatch detected</p>
+            <p className="text-xs mt-0.5">
+              We detected "{sources.find((s) => s.value === detectedSource)?.label}" 
+              but you selected "{sources.find((s) => s.value === value)?.label}". 
+              Please verify this is correct.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {isDetected && isMatch && (
+        <div className="flex items-center gap-2 p-3 text-sm rounded-md bg-green-500/10 text-green-700 dark:text-green-400">
+          <Check className="w-4 h-4 shrink-0" />
+          <span>
+            Auto-detected as{" "}
+            <strong>{sources.find((s) => s.value === detectedSource)?.label}</strong>
+          </span>
+        </div>
+      )}
+
+      {!isDetected && !value && (
+        <p className="text-xs text-muted-foreground">
+          Select the type of data you're uploading. We'll try to auto-detect
+          this from your filename.
+        </p>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Card-based source selector variant for larger displays
+ */
+interface SourceCardsProps {
+  /** Currently selected data source */
+  value: DataSource | null;
+  /** Callback when source changes */
+  onChange: (source: DataSource) => void;
+  /** Auto-detected source from filename/content */
+  detectedSource?: DataSource | null;
+  /** Whether the selector is disabled */
+  disabled?: boolean;
+  /** Optional className for styling */
+  className?: string;
+}
+
+/**
+ * Card-based source selector for visual selection
+ */
+export function SourceCards({
+  value,
+  onChange,
+  detectedSource,
+  disabled = false,
+  className,
+}: SourceCardsProps) {
+  return (
+    <div className={cn("space-y-3", className)}>
+      <div className="flex items-center justify-between">
+        <Label className="text-sm font-medium">Data Source</Label>
+        {detectedSource && (
+          <Badge variant="secondary" className="text-xs">
+            <Sparkles className="w-3 h-3 mr-1" />
+            Auto-detected
+          </Badge>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {sources.map((source) => {
+          const isSelected = value === source.value;
+          const isDetected = detectedSource === source.value;
+
+          return (
+            <button
+              key={source.value}
+              onClick={() => !disabled && onChange(source.value)}
+              disabled={disabled}
+              type="button"
+              className={cn(
+                "relative flex flex-col items-start p-4 rounded-lg border-2 text-left transition-all duration-200",
+                "hover:border-primary/50 hover:bg-muted/50",
+                isSelected && "border-primary bg-primary/5",
+                isDetected && !isSelected && "border-amber-500/50 bg-amber-500/5",
+                disabled && "opacity-50 cursor-not-allowed hover:border-border hover:bg-transparent",
+                !isSelected && !isDetected && !disabled && "border-border bg-card"
+              )}
+            >
+              {isDetected && (
+                <Badge
+                  variant="secondary"
+                  className="absolute top-2 right-2 text-[10px] px-1.5 py-0"
+                >
+                  <Sparkles className="w-2.5 h-2.5 mr-0.5" />
+                  Detected
+                </Badge>
+              )}
+              {isSelected && (
+                <div className="absolute top-2 right-2">
+                  <Check className="w-4 h-4 text-primary" />
+                </div>
+              )}
+              <span className="font-medium text-sm">{source.label}</span>
+              <span className="text-xs text-muted-foreground mt-1">
+                {source.description}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
