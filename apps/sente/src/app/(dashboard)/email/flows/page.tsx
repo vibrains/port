@@ -6,7 +6,6 @@
 
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth/next";
 import {
   Workflow,
   Users,
@@ -15,7 +14,7 @@ import {
   DollarSign,
 } from "lucide-react";
 
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import {
   getKlaviyoFlows,
   getKlaviyoFlowsSummary,
@@ -57,22 +56,7 @@ async function EmailFlowsContent({
   month?: string;
   flowType: "all" | "b2c" | "b2b";
 }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    return null;
-  }
-
-  const clientId = session.user.clientIds?.[0];
-
-  if (!clientId) {
-    return (
-      <EmptyState
-        title="No Client Access"
-        description="You don't have access to any client data."
-      />
-    );
-  }
+  const clientId = MOCK_CLIENT_ID;
 
   try {
     const showB2C = flowType !== "b2b";
@@ -224,11 +208,8 @@ export default async function EmailFlowsPage({
   const flowType =
     flowTypeParam === "b2c" || flowTypeParam === "b2b" ? flowTypeParam : "all";
 
-  const session = await getServerSession(authOptions);
-  const clientId = session?.user?.clientIds?.[0];
-  const executiveSummaryContent = clientId
-    ? await getExecutiveSummary(clientId, "email-flows", activeMonth).catch(() => "")
-    : "";
+  const clientId = MOCK_CLIENT_ID;
+  const executiveSummaryContent = await getExecutiveSummary(clientId, "email-flows", activeMonth).catch(() => "");
 
   return (
     <div className="space-y-6">
@@ -248,7 +229,7 @@ export default async function EmailFlowsPage({
         initialContent={executiveSummaryContent}
         channel="email-flows"
         month={activeMonth}
-        canEdit={session?.user?.role === "admin"}
+        canEdit={true}
       />
 
       {/* Content with Suspense */}

@@ -5,17 +5,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 import { getAllUsers, createUser } from "@/lib/db/queries/users";
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const users = await getAllUsers();
     return NextResponse.json({ users });
   } catch (error) {
@@ -29,11 +22,6 @@ export async function GET(): Promise<NextResponse> {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const body = await request.json();
     const { email, name, role, password } = body;
 

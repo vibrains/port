@@ -5,9 +5,6 @@
  */
 
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 import { Upload, History, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -53,18 +50,6 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Check authentication
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  // Check admin role
-  if (session.user.role !== "admin") {
-    redirect("/");
-  }
-
   return (
     <div className="space-y-6">
       {/* Header */}

@@ -5,9 +5,7 @@
  */
 
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { getUploadHistory } from "@/lib/db/queries/uploads";
 import { DataUpload } from "@/types/database";
 import { UploadHistoryTable } from "@/components/upload/upload-history-table";
@@ -31,43 +29,7 @@ export default async function UploadHistoryPage({
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  // Check authentication
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  // Check admin role
-  if (session.user.role !== "admin") {
-    redirect("/");
-  }
-
-  // Get client ID from session
-  const clientId = session.user.clientIds?.[0];
-  if (!clientId) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <History className="w-6 h-6" />
-            Upload History
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            View and manage past data uploads
-          </p>
-        </div>
-
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">
-              No client associated with your account. Please contact an administrator.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const clientId = MOCK_CLIENT_ID;
 
   // Parse pagination and filter params
   const resolvedParams = await searchParams;

@@ -6,7 +6,6 @@
 
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth/next";
 import {
   Eye,
   Users,
@@ -14,7 +13,7 @@ import {
   MousePointerClick,
 } from "lucide-react";
 
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { getGA4Pages, getTopPages, getWebSummary } from "@/lib/db/queries/web";
 import { getExecutiveSummary } from "@/lib/db/queries/executive-summary";
 import { ExecutiveSummaryEditor } from "@/components/dashboard/executive-summary-editor";
@@ -49,22 +48,7 @@ async function WebPagesContent({
   compare: boolean;
   month?: string;
 }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    return null;
-  }
-
-  const clientId = session.user.clientIds?.[0];
-
-  if (!clientId) {
-    return (
-      <EmptyState
-        title="No Client Access"
-        description="You don't have access to any client data."
-      />
-    );
-  }
+  const clientId = MOCK_CLIENT_ID;
 
   try {
     const [webSummary, topPages, pages] = await Promise.all([
@@ -201,11 +185,8 @@ export default async function WebPagesPage({
   const { dateRange, compare, month } = parseRollupDateParams(params);
   const activeMonth = month ?? new Date().toISOString().slice(0, 7);
 
-  const session = await getServerSession(authOptions);
-  const clientId = session?.user?.clientIds?.[0];
-  const executiveSummaryContent = clientId
-    ? await getExecutiveSummary(clientId, "web-pages", activeMonth).catch(() => "")
-    : "";
+  const clientId = MOCK_CLIENT_ID;
+  const executiveSummaryContent = await getExecutiveSummary(clientId, "web-pages", activeMonth).catch(() => "");
 
   return (
     <div className="space-y-6">
@@ -221,7 +202,7 @@ export default async function WebPagesPage({
         initialContent={executiveSummaryContent}
         channel="web-pages"
         month={activeMonth}
-        canEdit={session?.user?.role === "admin"}
+        canEdit={true}
       />
 
       {/* Content with Suspense */}

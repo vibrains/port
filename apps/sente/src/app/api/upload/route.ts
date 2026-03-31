@@ -5,8 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { getUploadHistory } from "@/lib/db/queries/uploads";
 
 /**
@@ -14,14 +13,6 @@ import { getUploadHistory } from "@/lib/db/queries/uploads";
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized. Please sign in." }, { status: 401 });
-    }
-    if (session.user.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden. Admin access required for uploads." }, { status: 403 });
-    }
-
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
     if (!file) {
@@ -48,15 +39,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized. Please sign in." }, { status: 401 });
-    }
-
-    const clientId = session.user.clientIds?.[0];
-    if (!clientId) {
-      return NextResponse.json({ error: "No client associated with user account." }, { status: 400 });
-    }
+    const clientId = MOCK_CLIENT_ID;
 
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get("limit") || "50", 10);
@@ -81,14 +64,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  */
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
-    }
-    if (session.user.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
-    }
-
     const { searchParams } = new URL(request.url);
     const uploadId = searchParams.get("uploadId");
     if (!uploadId) {

@@ -5,9 +5,7 @@
  */
 
 import { Metadata } from "next";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { getInsights } from "@/lib/db/queries/insights";
 import { InsightsClient } from "@/components/insights/insights-client";
 import { Lightbulb } from "lucide-react";
@@ -20,14 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function InsightsPage() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/login");
-
-  const clientId = session.user.clientIds?.[0];
-  if (!clientId) redirect("/");
+  const clientId = MOCK_CLIENT_ID;
 
   const insights = await getInsights(clientId);
-  const canManageInsights = session.user.role === "admin";
+  const canManageInsights = true;
 
   return (
     <div className="space-y-6">

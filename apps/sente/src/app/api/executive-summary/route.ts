@@ -6,8 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import {
   getExecutiveSummary,
   upsertExecutiveSummary,
@@ -15,15 +14,7 @@ import {
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const clientId = session.user.clientIds?.[0];
-    if (!clientId) {
-      return NextResponse.json({ error: "No client assigned" }, { status: 400 });
-    }
+    const clientId = MOCK_CLIENT_ID;
 
     const url = new URL(request.url);
     const channel = url.searchParams.get("channel");
@@ -42,19 +33,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    if (session.user.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    const clientId = session.user.clientIds?.[0];
-    if (!clientId) {
-      return NextResponse.json({ error: "No client assigned" }, { status: 400 });
-    }
+    const clientId = MOCK_CLIENT_ID;
 
     const body = await request.json() as { channel?: string; month?: string; content?: string };
     const { channel, month, content } = body;

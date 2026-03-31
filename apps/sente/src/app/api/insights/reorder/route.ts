@@ -5,24 +5,12 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { updateSortOrders } from "@/lib/db/queries/insights";
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    if (session.user.role !== "admin") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    const clientId = session.user.clientIds?.[0];
-    if (!clientId) {
-      return NextResponse.json({ error: "No client assigned" }, { status: 400 });
-    }
+    const clientId = MOCK_CLIENT_ID;
 
     const body = await request.json();
     const { orders } = body;

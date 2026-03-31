@@ -86,7 +86,7 @@ export const CLIENT_PROJECTS: Project[] = [
   {
     name: 'Jeisys',
     description: 'Medical aesthetics technology company website.',
-    link: 'https://jeisys.com/',
+    link: 'https://www.jeisys-us.com/',
     video: '/videos/N&D_Jeisys_Homepage_Reel.mp4',
     id: 'project9',
   },

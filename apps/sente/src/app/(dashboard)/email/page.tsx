@@ -6,7 +6,6 @@
 
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth/next";
 import {
   Mail,
   Users,
@@ -15,7 +14,7 @@ import {
   DollarSign,
 } from "lucide-react";
 
-import { authOptions } from "@/lib/auth";
+import { MOCK_CLIENT_ID } from "@/lib/mock-data";
 import { getEmailCampaigns, getEmailCampaignsSummary } from "@/lib/db/queries/email";
 import { getExecutiveSummary } from "@/lib/db/queries/executive-summary";
 import { ExecutiveSummaryEditor } from "@/components/dashboard/executive-summary-editor";
@@ -53,22 +52,7 @@ async function EmailCampaignsContent({
   month?: string;
   campaignType: "all" | "b2c" | "b2b";
 }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    return null;
-  }
-
-  const clientId = session.user.clientIds?.[0];
-
-  if (!clientId) {
-    return (
-      <EmptyState
-        title="No Client Access"
-        description="You don't have access to any client data."
-      />
-    );
-  }
+  const clientId = MOCK_CLIENT_ID;
 
   try {
     const sourceFilter =
@@ -204,11 +188,8 @@ export default async function EmailCampaignsPage({
   const campaignType =
     campaignTypeParam === "b2c" || campaignTypeParam === "b2b" ? campaignTypeParam : "all";
 
-  const session = await getServerSession(authOptions);
-  const clientId = session?.user?.clientIds?.[0];
-  const executiveSummaryContent = clientId
-    ? await getExecutiveSummary(clientId, "email", activeMonth).catch(() => "")
-    : "";
+  const clientId = MOCK_CLIENT_ID;
+  const executiveSummaryContent = await getExecutiveSummary(clientId, "email", activeMonth).catch(() => "");
 
   return (
     <div className="space-y-6">
@@ -228,7 +209,7 @@ export default async function EmailCampaignsPage({
         initialContent={executiveSummaryContent}
         channel="email"
         month={activeMonth}
-        canEdit={session?.user?.role === "admin"}
+        canEdit={true}
       />
 
       {/* Content with Suspense */}
