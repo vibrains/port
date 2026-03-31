@@ -18,7 +18,7 @@ export const NDOS_PROJECTS: Project[] = [
     name: 'NDOS BurnKit',
     description:
       'Financial analytics dashboard tracking burn rate, billable hours, project profitability, and team utilization.',
-    link: '/burnkit',
+    link: '#',
     icon: 'Flame',
     id: 'project1',
   },
@@ -26,7 +26,7 @@ export const NDOS_PROJECTS: Project[] = [
     name: 'NDOS TimeKit',
     description:
       'Teamwork time-log sync and payroll export system. Syncs approved time from Teamwork API into PostgreSQL, generates fixed-width files for Advantage payroll import.',
-    link: '/timekit',
+    link: '#',
     icon: 'Clock',
     id: 'project2',
   },
@@ -34,7 +34,7 @@ export const NDOS_PROJECTS: Project[] = [
     name: 'NDOS MemoryKit',
     description:
       'MCP server for organizational memory. SQLite FTS5 indexing of an Obsidian vault with context bundles, full-text search, and memory extraction tools.',
-    link: '/memorykit',
+    link: '#',
     icon: 'Brain',
     id: 'project4',
   },
@@ -94,7 +94,7 @@ export const CLIENT_PROJECTS: Project[] = [
     name: 'Sente Dashboard',
     description:
       'Social media analytics dashboard with CSV uploads, executive summaries, AI-powered insights, and multi-channel reporting.',
-    link: '/sente',
+    link: '#',
     logo: '/sente-logo.svg',
     id: 'project3',
   },
