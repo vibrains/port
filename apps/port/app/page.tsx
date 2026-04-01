@@ -167,11 +167,10 @@ export default function Personal() {
       >
         <h3 className="mb-2 text-lg font-medium">● Near&Dear OS (NDOS)</h3>
         <p className="mb-5 text-sm text-zinc-600 dark:text-zinc-400">
-          AI-powered agentic internal operating system built for Near&Dear. Each
-          kit is a modular tool that automates a core agency workflow —
-          financial analytics, time tracking, social reporting, and
-          organizational memory — orchestrated by AI agents that integrate with
-          existing systems.
+          AI-powered agentic operating system built for Near&Dear. Each kit is a
+          modular tool that automates a core agency workflow — financial
+          analytics, time tracking, social reporting, and organizational memory
+          — orchestrated by AI agents that integrate with existing systems.
         </p>
         <div className="grid grid-cols-1 gap-x-20 gap-y-6 sm:grid-cols-2">
           {NDOS_PROJECTS.map((project) => (
