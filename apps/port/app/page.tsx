@@ -148,7 +148,13 @@ export default function Personal() {
         transition={TRANSITION_SECTION}
       >
         <div className="flex-1">
-          <TextEffect as="p" preset="fade" per="char" delay={0.3} className="text-zinc-600 dark:text-zinc-400">
+          <TextEffect
+            as="p"
+            preset="fade"
+            per="char"
+            delay={0.3}
+            className="text-zinc-600 dark:text-zinc-400"
+          >
             Expertise in full-stack development, internal product design, and
             AI-augmented workflows.
           </TextEffect>
@@ -159,7 +165,7 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-2 text-lg font-medium">Near&Dear OS (NDOS)</h3>
+        <h3 className="mb-2 text-lg font-medium">● Near&Dear OS (NDOS)</h3>
         <p className="mb-5 text-sm text-zinc-600 dark:text-zinc-400">
           An AI-powered agentic internal operating system built for Near&Dear.
           Each kit is a modular tool that automates a core agency workflow —
@@ -167,13 +173,19 @@ export default function Personal() {
           organizational memory — orchestrated by AI agents that integrate with
           existing systems.
         </p>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-20 gap-y-6 sm:grid-cols-2">
           {NDOS_PROJECTS.map((project) => (
             <div key={project.name} className="px-1">
               {project.icon && ICON_MAP[project.icon] ? (
-                <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900">
-                  <ProjectIcon name={project.icon} />
-                </div>
+                project.link !== '#' ? (
+                  <a href={project.link} target="_blank" className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900">
+                    <ProjectIcon name={project.icon} />
+                  </a>
+                ) : (
+                  <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900">
+                    <ProjectIcon name={project.icon} />
+                  </div>
+                )
               ) : project.logo ? (
                 <img
                   src={project.logo}
@@ -207,7 +219,7 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Client Work</h3>
+        <h3 className="mb-5 text-lg font-medium">● Client Work</h3>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
           {CLIENT_PROJECTS.map((project) => (
             <div key={project.name} className="space-y-2">
@@ -238,13 +250,13 @@ export default function Personal() {
                       {project.name}
                       <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full dark:bg-zinc-50"></span>
                     </a>
-                    <span className="text-xs text-zinc-400">
+                    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                       {project.name === 'Sente Dashboard'
                         ? 'Dashboard'
                         : 'Site Build'}
                     </span>
                   </div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                     {project.description}
                   </p>
                 </div>
@@ -265,10 +277,11 @@ export default function Personal() {
                         playsInline
                         className="aspect-video w-full rounded-xl"
                       />
+                      <span className="absolute top-2.5 right-2.5 rounded-full bg-white/80 px-2 py-0.5 text-xs text-zinc-600 backdrop-blur-sm dark:bg-zinc-900/80 dark:text-zinc-400">Site Build</span>
                     </a>
                   )}
                   <div className="px-1">
-                    <div className="flex items-center justify-between">
+                    <div>
                       <a
                         className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                         href={project.link}
@@ -277,9 +290,8 @@ export default function Personal() {
                         {project.name}
                         <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full dark:bg-zinc-50"></span>
                       </a>
-                      <span className="text-xs text-zinc-400">Site Build</span>
                     </div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                       {project.description}
                     </p>
                   </div>
