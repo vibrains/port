@@ -78,7 +78,8 @@ export const CLIENT_PROJECTS: Project[] = [
   },
   {
     name: 'Near&Dear',
-    description: 'Agency',
+    description:
+      'A full-service marketing agency focused on human vitality. We want everyone to live long, live well, and enjoy the ride.',
     link: 'https://nearanddear.agency/',
     video: '/videos/N&D_Homepage_Sizzle.mp4',
     id: 'project5',
@@ -91,7 +92,7 @@ export const CLIENT_PROJECTS: Project[] = [
     id: 'project9',
   },
   {
-    name: 'Sente Dashboard',
+    name: 'Dashboard',
     description:
       'Social media analytics dashboard with CSV uploads, executive summaries, AI-powered insights, and multi-channel reporting.',
     link: '/sente',
