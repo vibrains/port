@@ -1,6 +1,6 @@
 'use client'
 import { TextEffect } from '@/components/ui/text-effect'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { XIcon, Flame, Clock, LayoutDashboard, Brain, Bot } from 'lucide-react'
 
@@ -143,24 +143,13 @@ function MagneticSocialLink({
   )
 }
 
-function ClientProjectCard({ project, activeVideoRef }: { project: { name: string; description: string; link: string; video?: string; logo?: string }; activeVideoRef: React.MutableRefObject<HTMLVideoElement | null> }) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
+function ClientProjectCard({ project }: { project: { name: string; description: string; link: string; video?: string; logo?: string } }) {
   return (
     <a
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
       className={`group/card relative block overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:hover:shadow-zinc-900${project.name === 'JetZero' ? ' sm:col-span-2' : ''}`}
-      onMouseEnter={() => {
-        if (videoRef.current) {
-          if (activeVideoRef.current && activeVideoRef.current !== videoRef.current) {
-            activeVideoRef.current.pause()
-          }
-          activeVideoRef.current = videoRef.current
-          videoRef.current.play()
-        }
-      }}
     >
       <span className="absolute top-3 right-3 z-10 opacity-0 transition-opacity duration-200 group-hover/card:opacity-100">
         <ExternalLinkIcon />
@@ -192,8 +181,8 @@ function ClientProjectCard({ project, activeVideoRef }: { project: { name: strin
           {project.video && (
             <div className="relative">
               <video
-                ref={videoRef}
                 src={project.video}
+                autoPlay
                 loop
                 muted
                 playsInline
@@ -219,8 +208,6 @@ function ClientProjectCard({ project, activeVideoRef }: { project: { name: strin
 }
 
 export default function Personal() {
-  const activeVideoRef = useRef<HTMLVideoElement | null>(null)
-
   return (
     <motion.main
       className="space-y-24"
@@ -308,7 +295,7 @@ export default function Personal() {
         <h3 className="mb-5 text-lg font-medium">● Client Work</h3>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
           {CLIENT_PROJECTS.map((project) => (
-            <ClientProjectCard key={project.name} project={project} activeVideoRef={activeVideoRef} />
+            <ClientProjectCard key={project.name} project={project} />
           ))}
         </div>
       </motion.section>
