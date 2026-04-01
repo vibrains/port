@@ -167,8 +167,8 @@ export default function Personal() {
       >
         <h3 className="mb-2 text-lg font-medium">● Near&Dear OS (NDOS)</h3>
         <p className="mb-5 text-sm text-zinc-600 dark:text-zinc-400">
-          An AI-powered agentic internal operating system built for Near&Dear.
-          Each kit is a modular tool that automates a core agency workflow —
+          AI-powered agentic internal operating system built for Near&Dear. Each
+          kit is a modular tool that automates a core agency workflow —
           financial analytics, time tracking, social reporting, and
           organizational memory — orchestrated by AI agents that integrate with
           existing systems.
@@ -178,7 +178,11 @@ export default function Personal() {
             <div key={project.name} className="px-1">
               {project.icon && ICON_MAP[project.icon] ? (
                 project.link !== '#' ? (
-                  <a href={project.link} target="_blank" className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
+                  >
                     <ProjectIcon name={project.icon} />
                   </a>
                 ) : (
@@ -277,7 +281,9 @@ export default function Personal() {
                         playsInline
                         className="aspect-video w-full rounded-xl"
                       />
-                      <span className="absolute top-2.5 right-2.5 rounded-full bg-white/80 px-2 py-0.5 text-xs text-zinc-600 backdrop-blur-sm dark:bg-zinc-900/80 dark:text-zinc-400">Site Build</span>
+                      <span className="absolute top-2.5 right-2.5 rounded-full bg-white/80 px-2 py-0.5 text-xs text-zinc-600 backdrop-blur-sm dark:bg-zinc-900/80 dark:text-zinc-400">
+                        Site Build
+                      </span>
                     </a>
                   )}
                   <div className="px-1">
