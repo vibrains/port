@@ -42,13 +42,15 @@ export default async function DashboardPage() {
   const filters = MOCK_FILTERS;
 
   return (
-    <div className="px-6 py-6">
-      <div className="space-y-6">
-        <Header title="Dashboard" description="View and filter time logs synced from Teamwork" />
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardContent initialFilters={filters} />
-        </Suspense>
+    <>
+      <Header title="Dashboard" description="View and filter time logs synced from Teamwork" />
+      <div className="px-6 py-6">
+        <div className="space-y-6">
+          <Suspense fallback={<DashboardSkeleton />}>
+            <DashboardContent initialFilters={filters} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
