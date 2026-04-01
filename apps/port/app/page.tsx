@@ -1,4 +1,5 @@
 'use client'
+import { TextEffect } from '@/components/ui/text-effect'
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { XIcon, Flame, Clock, LayoutDashboard, Brain, Bot } from 'lucide-react'
@@ -147,10 +148,10 @@ export default function Personal() {
         transition={TRANSITION_SECTION}
       >
         <div className="flex-1">
-          <p className="text-zinc-600 dark:text-zinc-400">
+          <TextEffect as="p" preset="fade" per="char" delay={0.3} className="text-zinc-600 dark:text-zinc-400">
             Expertise in full-stack development, internal product design, and
             AI-augmented workflows.
-          </p>
+          </TextEffect>
         </div>
       </motion.section>
 

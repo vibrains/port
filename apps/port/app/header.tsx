@@ -7,14 +7,16 @@ export function Header() {
     <header className="mb-8 flex items-center justify-between">
       <div>
         <Link href="/" className="font-medium text-black dark:text-white">
-          Emiliano Borzelli
+          <TextEffect as="span" preset="fade" per="char" delay={0}>
+            Emiliano Borzelli
+          </TextEffect>
         </Link>
         <TextEffect
-          as="p"
+          as="span"
           preset="fade"
           per="char"
-          className="text-zinc-600 dark:text-zinc-500"
-          delay={0.5}
+          className="block text-zinc-600 dark:text-zinc-500"
+          delay={0.2}
         >
           Director of Technology
         </TextEffect>
