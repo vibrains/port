@@ -6,8 +6,20 @@ import { XIcon, Flame, Clock, LayoutDashboard, Brain, Bot } from 'lucide-react'
 
 function ExternalLinkIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-zinc-400 dark:text-zinc-500">
-      <path d="M3 2C2.44772 2 2 2.44772 2 3V12C2 12.5523 2.44772 13 3 13H12C12.5523 13 13 12.5523 13 12V8.5C13 8.22386 12.7761 8 12.5 8C12.2239 8 12 8.22386 12 8.5V12H3V3L6.5 3C6.77614 3 7 2.77614 7 2.5C7 2.22386 6.77614 2 6.5 2H3ZM12.8536 2.14645C12.9015 2.19439 12.9377 2.24964 12.9621 2.30861C12.9861 2.36669 12.9996 2.4303 13 2.497L13 2.5V2.50049V5.5C13 5.77614 12.7761 6 12.5 6C12.2239 6 12 5.77614 12 5.5V3.70711L6.85355 8.85355C6.65829 9.04882 6.34171 9.04882 6.14645 8.85355C5.95118 8.65829 5.95118 8.34171 6.14645 8.14645L11.2929 3H9.5C9.22386 3 9 2.77614 9 2.5C9 2.22386 9.22386 2 9.5 2H12.4999H12.5C12.5678 2 12.6324 2.01349 12.6914 2.03794C12.7504 2.06234 12.8056 2.09851 12.8536 2.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="text-zinc-400 dark:text-zinc-500"
+    >
+      <path
+        d="M3 2C2.44772 2 2 2.44772 2 3V12C2 12.5523 2.44772 13 3 13H12C12.5523 13 13 12.5523 13 12V8.5C13 8.22386 12.7761 8 12.5 8C12.2239 8 12 8.22386 12 8.5V12H3V3L6.5 3C6.77614 3 7 2.77614 7 2.5C7 2.22386 6.77614 2 6.5 2H3ZM12.8536 2.14645C12.9015 2.19439 12.9377 2.24964 12.9621 2.30861C12.9861 2.36669 12.9996 2.4303 13 2.497L13 2.5V2.50049V5.5C13 5.77614 12.7761 6 12.5 6C12.2239 6 12 5.77614 12 5.5V3.70711L6.85355 8.85355C6.65829 9.04882 6.34171 9.04882 6.14645 8.85355C5.95118 8.65829 5.95118 8.34171 6.14645 8.14645L11.2929 3H9.5C9.22386 3 9 2.77614 9 2.5C9 2.22386 9.22386 2 9.5 2H12.4999H12.5C12.5678 2 12.6324 2.01349 12.6914 2.03794C12.7504 2.06234 12.8056 2.09851 12.8536 2.14645Z"
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+      ></path>
     </svg>
   )
 }
@@ -36,7 +48,13 @@ import {
   MorphingDialogClose,
   MorphingDialogContainer,
 } from '@/components/ui/morphing-dialog'
-import { NDOS_PROJECTS, CLIENT_PROJECTS, EMAIL, SOCIAL_LINKS } from './data'
+import {
+  NDOS_PROJECTS,
+  CLIENT_PROJECTS,
+  PERSONAL_PROJECTS,
+  EMAIL,
+  SOCIAL_LINKS,
+} from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -143,67 +161,118 @@ function MagneticSocialLink({
   )
 }
 
-function ClientProjectCard({ project }: { project: { name: string; description: string; link: string; video?: string; logo?: string } }) {
+function ClientProjectCard({
+  project,
+  badge = 'Site Build',
+  titleFirst = false,
+}: {
+  project: {
+    name: string
+    description: string
+    link: string
+    video?: string
+    thumbnail?: string
+    logo?: string
+  }
+  badge?: string
+  titleFirst?: boolean
+}) {
+  const hasLink = project.link && project.link !== '#'
+  const Wrapper: React.ElementType = hasLink ? 'a' : 'div'
+  const wrapperProps = hasLink
+    ? { href: project.link, target: '_blank', rel: 'noopener noreferrer' }
+    : {}
   return (
-    <a
-      href={project.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group/card relative block overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:hover:shadow-zinc-900${project.name === 'JetZero' ? ' sm:col-span-2' : ''}`}
+    <Wrapper
+      {...wrapperProps}
+      className={`group/card relative block overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-200 ${hasLink ? 'hover:-translate-y-0.5 hover:shadow-md' : ''} dark:border-zinc-700 dark:bg-zinc-900 dark:hover:shadow-zinc-900 ${project.name === 'Explain That Strategy' ? 'sm:col-span-6' : project.name === 'JetZero' || project.name === 'HydraFacial' ? 'sm:col-span-4' : ['Sentelabs', 'Jeisys', 'Financial Cabinet', 'Miniaturize'].includes(project.name) ? 'sm:col-span-3' : 'sm:col-span-2'}`}
     >
-      <span className="absolute top-3 right-3 z-10 opacity-0 transition-opacity duration-200 group-hover/card:opacity-100">
-        <ExternalLinkIcon />
-      </span>
       {project.logo ? (
-        <div className="p-4">
-          <img
-            src={project.logo}
-            alt={project.name}
-            className="mb-3 dark:invert"
-            style={{
-              height: project.name === 'FIDO Alliance' ? '3rem' : '1.5rem',
-            }}
-          />
-          <div className="flex items-center justify-between">
-            <span className="font-base font-[450] text-zinc-900 dark:text-zinc-50">
-              {project.name}
-            </span>
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-              {project.name === 'Sente Dashboard' ? 'Dashboard' : 'Site Build'}
-            </span>
+        <div className="flex h-full flex-col p-4">
+          <div className="flex flex-1 items-center justify-center">
+            <img
+              src={project.logo}
+              alt={project.name}
+              className="dark:invert"
+              style={{
+                height: project.name === 'FIDO Alliance' ? '3rem' : '1.5rem',
+              }}
+            />
           </div>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-200">
-            {project.description}
-          </p>
-        </div>
-      ) : (
-        <>
-          {project.video && (
-            <div className="relative">
-              <video
-                src={project.video}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="aspect-video w-full"
-              />
-              <span className="absolute top-2.5 left-2.5 rounded-full bg-white/80 px-2 py-0.5 text-xs text-zinc-600 backdrop-blur-sm dark:bg-zinc-900/80 dark:text-zinc-400">
-                Site Build
+          <div className="mt-auto">
+            <div className="flex items-center justify-between">
+              <span className="font-base text-lg font-[900] text-zinc-900 dark:text-zinc-50">
+                {project.name}
+              </span>
+              <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                {project.name === 'Sente Dashboard' ? 'Dashboard' : badge}
               </span>
             </div>
-          )}
-          <div className="p-4">
-            <span className="font-base font-[450] text-zinc-900 dark:text-zinc-50">
-              {project.name}
-            </span>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-200">
               {project.description}
             </p>
           </div>
-        </>
+        </div>
+      ) : (
+        <div className="flex h-full flex-col">
+          {titleFirst && (
+            <div className="p-4">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-base text-lg font-[900] text-zinc-900 dark:text-zinc-50">
+                  {project.name}
+                  {hasLink && (
+                    <span className="opacity-0 transition-opacity duration-200 group-hover/card:opacity-100">
+                      <ExternalLinkIcon />
+                    </span>
+                  )}
+                </span>
+                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                  {project.name === 'Sentelabs' ? 'Dashboard' : badge}
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-200">
+                {project.description}
+              </p>
+            </div>
+          )}
+          {(project.video || project.thumbnail) && (
+            <div className="relative min-h-0 flex-1">
+              {project.video ? (
+                <video
+                  src={project.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <img
+                  src={project.thumbnail}
+                  alt={project.name}
+                  className="h-full w-full object-cover"
+                />
+              )}
+              {!titleFirst && (
+                <span className="absolute top-2.5 left-2.5 rounded-full bg-white/80 px-2 py-0.5 text-xs text-zinc-600 backdrop-blur-sm dark:bg-zinc-900/80 dark:text-zinc-400">
+                  {badge}
+                </span>
+              )}
+            </div>
+          )}
+          {!titleFirst && (
+            <div className="mt-auto p-4">
+              <span className="font-base text-lg font-[900] text-zinc-900 dark:text-zinc-50">
+                {project.name}
+              </span>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-200">
+                {project.description}
+              </p>
+            </div>
+          )}
+        </div>
       )}
-    </a>
+    </Wrapper>
   )
 }
 
@@ -260,7 +329,7 @@ export default function Personal() {
                     className="mb-3 h-6 dark:invert"
                   />
                 ) : null}
-                <span className="font-base font-[450] text-zinc-900 dark:text-zinc-50">
+                <span className="font-base text-lg font-[900] text-zinc-900 dark:text-zinc-50">
                   {project.name}
                 </span>
                 <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-200">
@@ -269,17 +338,26 @@ export default function Personal() {
               </>
             )
 
-            const className = "group/card relative block rounded-xl border border-zinc-200 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:hover:shadow-zinc-900"
+            const className =
+              'group/card relative block rounded-xl border border-zinc-200 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:hover:shadow-zinc-900'
 
             return project.link !== '#' ? (
-              <a key={project.name} href={project.link} target="_blank" className={className}>
+              <a
+                key={project.name}
+                href={project.link}
+                target="_blank"
+                className={className}
+              >
                 <span className="absolute top-3 right-3 opacity-0 transition-opacity duration-200 group-hover/card:opacity-100">
                   <ExternalLinkIcon />
                 </span>
                 {content}
               </a>
             ) : (
-              <div key={project.name} className="relative block rounded-xl border border-zinc-200 bg-white p-4 opacity-60 dark:border-zinc-700 dark:bg-zinc-900">
+              <div
+                key={project.name}
+                className="relative block rounded-xl border border-zinc-200 bg-white p-4 opacity-60 dark:border-zinc-700 dark:bg-zinc-900"
+              >
                 {content}
               </div>
             )
@@ -293,9 +371,27 @@ export default function Personal() {
         className="border-t border-zinc-200 pt-8 dark:border-zinc-700"
       >
         <h3 className="mb-5 text-lg font-medium">● Client Work</h3>
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-6">
           {CLIENT_PROJECTS.map((project) => (
-            <ClientProjectCard key={project.name} project={project} />
+            <ClientProjectCard key={project.name} project={project} titleFirst />
+          ))}
+        </div>
+      </motion.section>
+
+      <motion.section
+        variants={VARIANTS_SECTION}
+        transition={TRANSITION_SECTION}
+        className="border-t border-zinc-200 pt-8 dark:border-zinc-700"
+      >
+        <h3 className="mb-5 text-lg font-medium">● Experiments</h3>
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-6">
+          {PERSONAL_PROJECTS.map((project) => (
+            <ClientProjectCard
+              key={project.name}
+              project={project}
+              badge="Personal"
+              titleFirst
+            />
           ))}
         </div>
       </motion.section>
@@ -308,7 +404,10 @@ export default function Personal() {
         <h3 className="mb-5 text-lg font-medium">● Connect</h3>
         <p className="mb-5 text-zinc-600 dark:text-zinc-400">
           Feel free to contact me at{' '}
-          <a className="underline underline-offset-2 dark:text-zinc-300" href={`mailto:${EMAIL}`}>
+          <a
+            className="underline underline-offset-2 dark:text-zinc-300"
+            href={`mailto:${EMAIL}`}
+          >
             {EMAIL}
           </a>
         </p>

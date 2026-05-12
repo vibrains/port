@@ -3,6 +3,7 @@ type Project = {
   description: string
   link: string
   video?: string
+  thumbnail?: string
   icon?: string
   logo?: string
   id: string
@@ -63,49 +64,75 @@ export const CLIENT_PROJECTS: Project[] = [
     id: 'project8',
   },
   {
+    name: 'JetZero',
+    description: 'Next-generation all-wing aircraft design.',
+    link: 'https://www.jetzero.aero/',
+    video: '/videos/jetzero-united-compressed.mp4',
+    id: 'project11',
+  },
+  {
+    name: 'Near&Dear',
+    description: 'Marketing agency focused on human vitality.',
+    link: 'https://nearanddear.agency/',
+    video: '/videos/N&D_Homepage_Sizzle.mp4',
+    id: 'project5',
+  },
+  {
+    name: 'Sentelabs',
+    description:
+      'Custom analytics dashboard with CSV uploads, summaries, and AI-powered insights.',
+    link: '/sente',
+    video: '/videos/sente-compressed.mp4',
+    id: 'project3',
+  },
+  {
+    name: 'Jeisys',
+    description:
+      'Korea-born aesthetics brand with 25 years of R&D and clinical innovation trusted around the world.',
+    link: 'https://www.jeisys-us.com/',
+    video: '/videos/N&D_Jeisys_Homepage_Reel.mp4',
+    id: 'project9',
+  },
+  {
+    name: 'FIDO Alliance',
+    description: 'Authentication standards promoting the adoption of passkeys.',
+    link: 'https://fidoalliance.org/',
+    video: '/videos/fido-alliance-compressed.mp4',
+    id: 'project7',
+  },
+  {
     name: 'CooperSurgical',
     description: 'Medical device and fertility solutions.',
     link: 'https://www.coopersurgical.com',
     video: '/videos/CSI_Health_Wellness_LP.mp4',
     id: 'project6',
   },
+]
+
+export const PERSONAL_PROJECTS: Project[] = [
   {
-    name: 'JetZero',
-    description: 'Next-generation all-wing aircraft design.',
-    link: 'https://www.jetzero.aero/',
-    video: '/videos/Aircraft-page-sequence-720-final.mp4',
-    id: 'project11',
-  },
-  {
-    name: 'Near&Dear',
+    name: 'Financial Cabinet',
     description:
-      'A full-service marketing agency focused on human vitality. We want everyone to live long, live well, and enjoy the ride.',
-    link: 'https://nearanddear.agency/',
-    video: '/videos/N&D_Homepage_Sizzle.mp4',
-    id: 'project5',
+      'Dashboard tracking disclosed financial transactions from federal cabinet officials — filings, most-traded tickers, and late-filing rates.',
+    link: 'https://financial-cabinet.vercel.app/',
+    thumbnail: '/thumbnails/fc.png',
+    id: 'personal3',
   },
   {
-    name: 'Jeisys',
-    description: 'Medical aesthetics technology.',
-    link: 'https://www.jeisys-us.com/',
-    video: '/videos/N&D_Jeisys_Homepage_Reel.mp4',
-    id: 'project9',
-  },
-  {
-    name: 'Dashboard',
+    name: 'Miniaturize',
     description:
-      'Social media analytics dashboard with CSV uploads, executive summaries, AI-powered insights, and multi-channel reporting.',
-    link: '/sente',
-    logo: '/sente-logo.svg',
-    id: 'project3',
+      'A local two-piece tool for turning an Instagram photo into AI-generated "miniature architectural scale model" renders.',
+    link: '#',
+    video: '/videos/miniaturize.mp4',
+    id: 'personal2',
   },
   {
-    name: 'FIDO Alliance',
+    name: 'Explain That Strategy',
     description:
-      'Industry consortium developing open authentication standards.',
-    link: 'https://fidoalliance.org/',
-    logo: '/thumbnails/fido-logo-v2.svg',
-    id: 'project7',
+      "Break down pit stops, tire strategies, safety car calls, and weather crossovers from every Formula 1 race since 2018 — then simulate the alternatives the team didn't take.",
+    link: '#',
+    video: '/videos/explain-that-strategy.mp4',
+    id: 'personal1',
   },
 ]
 
