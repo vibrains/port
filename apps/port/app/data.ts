@@ -123,7 +123,7 @@ export const PERSONAL_PROJECTS: Project[] = [
     description:
       'A local two-piece tool for turning an Instagram photo into AI-generated "miniature architectural scale model" renders.',
     link: '#',
-    video: '/videos/miniaturize.mp4',
+    video: '/videos/miniaturize-compressed.mp4',
     id: 'personal2',
   },
   {
