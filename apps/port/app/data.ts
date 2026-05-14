@@ -130,7 +130,7 @@ export const PERSONAL_PROJECTS: Project[] = [
     name: 'Explain That Strategy',
     description:
       "Break down pit stops, tire strategies, safety car calls, and weather crossovers from every Formula 1 race since 2018 — then simulate the alternatives the team didn't take.",
-    link: '#',
+    link: 'https://explain-that-strategy.streamlit.app/',
     video: '/videos/explain-that-strategy.mp4',
     id: 'personal1',
   },
